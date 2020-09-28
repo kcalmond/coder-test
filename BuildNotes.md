@@ -24,9 +24,10 @@ docker run -it -p 127.0.0.1:8080:8080 \
   -v "$HOME/.config:/home/coder/.config" \
   -v "$PWD:/home/coder/project" \
   -u "$(id -u):$(id -g)" \
-  codercom/code-server:latest```
+  codercom/code-server:latest
+```
 
-... could not connect to http service at exposed addr:port. Tried a few variations. Nothing worked. Got this output consistently when looking at docker log:
+Could not connect to http service at exposed addr:port. Tried a few variations. Nothing worked. Got this output consistently when looking at docker log:
 
 ```coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
 7c7f39c61368ecb5f6a66ad9e61f2a57ec5760b50fc96753c3145cf301c58e27
@@ -66,3 +67,20 @@ coder@hackberry:~/project> curl -v http://127.0.0.1:8080
 coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
 coder@7c7f39c61368:~$ curl http://127.0.0.1:8080
 coder@7c7f39c61368:~$ ```
+
+Found that coder image writes `` into config.yaml every time, even with this form of the docker run:
+
+```
+coder@hackberry:~/.config/code-server> rm config.yaml
+coder@hackberry:~/.config/code-server> docker run -dt -p 8443:8443 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
+90392d5eb1b26c53c1c4d16210168b6601fab233f717862c1ce3850ed7822498
+coder@hackberry:~/.config/code-server> ll
+total 4
+-rw-r--r-- 1 coder users 88 Sep 28 19:26 config.yaml
+coder@hackberry:~/.config/code-server> cat config.yaml
+bind-addr: 127.0.0.1:8080
+auth: password
+password: b4fadc0238fa5ac5adc899c1
+cert: false
+coder@hackberry:~/.config/code-server>
+```
