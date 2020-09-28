@@ -66,9 +66,10 @@ coder@hackberry:~/project> curl -v http://127.0.0.1:8080
 * Connection #0 to host 127.0.0.1 left intact
 coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
 coder@7c7f39c61368:~$ curl http://127.0.0.1:8080
-coder@7c7f39c61368:~$ ```
+coder@7c7f39c61368:~$
+```
 
-Found that coder image writes `` into config.yaml every time, even with this form of the docker run:
+Found that coder image writes "bind-addr: 127.0.0.1:8080" into config.yaml every time, even with this form of the docker run:
 
 ```
 coder@hackberry:~/.config/code-server> rm config.yaml
