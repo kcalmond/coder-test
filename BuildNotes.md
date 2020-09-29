@@ -1,5 +1,5 @@
 
-## Using codercom/code-server:latest and docker command guidance from coder
+## Using image: codercom/code-server:latest
 
 Coder docker command example from https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md ...
 ```
@@ -93,10 +93,11 @@ cert: false
 coder@hackberry:~/.config/code-server>
 ```
 
-## using linuxserver.io image & docker command guidance
+## Using image: linuxserver/coder-server
+Their image and docker command guidance worked. Was able to open coder server home page using exposed url/port.
 
 * ref: https://hub.docker.com/r/linuxserver/code-server
-* Adaptation of the "docker" usage provided above:
+* Adaptation of the run-in-docker example from above page:
 ```
 coder@hackberry:~> docker run -dt -p 8443:8443 -v "$HOME/.config:/home/coder/.config" -e PUID=1000 -e PGID=1000 -e TZ=America/Los_Angeles linuxserver/code-server
 9d266976c7b6cdac46ba703d737374b2fe4ed0d837825e5dd20e1881f9665a90
@@ -104,6 +105,9 @@ coder@hackberry:~> docker ps
 CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS                                      NAMES
 9d266976c7b6        linuxserver/code-server              "/init"             8 seconds ago       Up 7 seconds        0.0.0.0:8443->8443/tcp                     silly_allen
 4a9341c95853        rancher/rancher:v2.4.6-linux-arm64   "entrypoint.sh"     3 weeks ago         Up 9 hours          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   fervent_poincare
+```
+Note difference in container start log output :
+```
 coder@hackberry:~> docker logs 9d266976c7b6
 [s6-init] making user provided files available at /var/run/s6/etc...exited 0.
 [s6-init] ensuring user provided files have correct perms...exited 0.
