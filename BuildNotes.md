@@ -19,7 +19,7 @@ docker run -it -p 127.0.0.1:8080:8080 \
   codercom/code-server:latest
 ```
 
-Could not connect to http service at exposed addr:port. Tried a few variations...
+Tried this form of the command per above:
 ```
 coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
 7c7f39c61368ecb5f6a66ad9e61f2a57ec5760b50fc96753c3145cf301c58e27
@@ -29,11 +29,9 @@ CONTAINER ID        IMAGE                                COMMAND                
 7c7f39c61368        codercom/code-server:latest          "/usr/bin/entrypoint…"   7 seconds ago       Up 5 seconds        127.0.0.1:8080->8080/tcp                   adoring_kilby
 
 ```
-
-Got this output consistently in docker log:
+Cannot connect to http service at exposed addr:port. Tried a few variations of the above command w/o luck. Got this output consistently in docker log:
 
 ```
-
 coder@hackberry:~/project> docker logs 7c7f39c61368
 whoami: cannot find name for user ID 1001
 [2020-09-28T19:11:45.094Z] info  Wrote default config file to ~/.config/code-server/config.yaml
@@ -44,7 +42,10 @@ whoami: cannot find name for user ID 1001
 [2020-09-28T19:11:45.819Z] info      - Using password from ~/.config/code-server/config.yaml
 [2020-09-28T19:11:45.819Z] info      - To disable use `--auth none`
 [2020-09-28T19:11:45.819Z] info    - Not serving HTTPS
-
+```
+No output from this curl command: `coder@hackberry:~/project> http://127.0.0.1:8080`
+The http server appears to be responding, just nothing generated:
+```
 coder@hackberry:~/project> curl -v http://127.0.0.1:8080
 *   Trying 127.0.0.1:8080...
 * TCP_NODELAY set
@@ -63,12 +64,14 @@ coder@hackberry:~/project> curl -v http://127.0.0.1:8080
 < Transfer-Encoding: chunked
 <
 * Connection #0 to host 127.0.0.1 left intact
-
+```
+Tried exec'ing into the container to see if curl output is any different. No output that way either:
+```
 coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   coder@7c7f39c61368:~$ curl http://127.0.0.1:8080
   coder@7c7f39c61368:~$
-
 ```
+
 
 Found that coder image writes "bind-addr: 127.0.0.1:8080" into config.yaml every time, even with this form of the docker run (changed to `-p 8443:8443`):
 
