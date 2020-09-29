@@ -27,7 +27,7 @@ docker run -it -p 127.0.0.1:8080:8080 \
   codercom/code-server:latest
 ```
 
-Could not connect to http service at exposed addr:port. Tried a few variations. Nothing worked. Got this output consistently when looking at docker log:
+Could not connect to http service at exposed addr:port. Tried a few variations. Nothing worked. Got this output consistently when looking at docker log:...
 
 ```coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
 7c7f39c61368ecb5f6a66ad9e61f2a57ec5760b50fc96753c3145cf301c58e27
