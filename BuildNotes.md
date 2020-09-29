@@ -1,17 +1,10 @@
 
-## linuxserver.io
-
-Successful build test inside docker using example/image from linuxserver.io.
-
-* ref: https://hub.docker.com/r/linuxserver/code-server
-* Adaptation of the "docker" usage provided above:
-```docker run -dt -p 8443:8443 -v "$HOME/.config:/home/coder/.config" -e PUID=1000 -e PGID=1000 -e TZ=America/Los_Angeles linuxserver/code-server```
-
-## coder code-server
+## Using codercom/code-server:latest and docker command guidance from coder
 
 * ref: https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md
-* Tried many forms of their docker start example:
-```# This will start a code-server container and expose it at http://127.0.0.1:8080.
+* Tried many forms of their docker command guidance:
+```
+# This will start a code-server container and expose it at http://127.0.0.1:8080.
 # It will also mount your current directory into the container as `/home/coder/project`
 # and forward your UID/GID so that all file system operations occur as your user outside
 # the container.
@@ -27,8 +20,7 @@ docker run -it -p 127.0.0.1:8080:8080 \
   codercom/code-server:latest
 ```
 
-Could not connect to http service at exposed addr:port. Tried a few variations. Nothing worked. Got this output consistently when looking at docker log:...
-
+Could not connect to http service at exposed addr:port. Tried a few variations...
 ```
 coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
 7c7f39c61368ecb5f6a66ad9e61f2a57ec5760b50fc96753c3145cf301c58e27
@@ -36,6 +28,12 @@ coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.conf
 coder@hackberry:~/project> docker ps
 CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS                                      NAMES
 7c7f39c61368        codercom/code-server:latest          "/usr/bin/entrypoint…"   7 seconds ago       Up 5 seconds        127.0.0.1:8080->8080/tcp                   adoring_kilby
+
+```
+
+Got this output consistently in docker log:
+
+```
 
 coder@hackberry:~/project> docker logs 7c7f39c61368
 whoami: cannot find name for user ID 1001
@@ -91,4 +89,67 @@ auth: password
 password: b4fadc0238fa5ac5adc899c1
 cert: false
 coder@hackberry:~/.config/code-server>
+```
+
+## using linuxserver.io image & docker command guidance
+
+* ref: https://hub.docker.com/r/linuxserver/code-server
+* Adaptation of the "docker" usage provided above:
+```
+coder@hackberry:~> docker run -dt -p 8443:8443 -v "$HOME/.config:/home/coder/.config" -e PUID=1000 -e PGID=1000 -e TZ=America/Los_Angeles linuxserver/code-server
+9d266976c7b6cdac46ba703d737374b2fe4ed0d837825e5dd20e1881f9665a90
+coder@hackberry:~> docker ps
+CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS                                      NAMES
+9d266976c7b6        linuxserver/code-server              "/init"             8 seconds ago       Up 7 seconds        0.0.0.0:8443->8443/tcp                     silly_allen
+4a9341c95853        rancher/rancher:v2.4.6-linux-arm64   "entrypoint.sh"     3 weeks ago         Up 9 hours          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   fervent_poincare
+coder@hackberry:~> docker logs 9d266976c7b6
+[s6-init] making user provided files available at /var/run/s6/etc...exited 0.
+[s6-init] ensuring user provided files have correct perms...exited 0.
+[fix-attrs.d] applying ownership & permissions fixes...
+[fix-attrs.d] done.
+[cont-init.d] executing container initialization scripts...
+[cont-init.d] 01-envfile: executing...
+[cont-init.d] 01-envfile: exited 0.
+[cont-init.d] 10-adduser: executing...
+
+-------------------------------------
+          _         ()
+         | |  ___   _    __
+         | | / __| | |  /  \
+         | | \__ \ | | | () |
+         |_| |___/ |_|  \__/
+
+
+Brought to you by linuxserver.io
+-------------------------------------
+
+To support LSIO projects visit:
+https://www.linuxserver.io/donate/
+-------------------------------------
+GID/UID
+-------------------------------------
+
+User uid:    1000
+User gid:    1000
+-------------------------------------
+
+[cont-init.d] 10-adduser: exited 0.
+[cont-init.d] 30-config: executing...
+[cont-init.d] 30-config: exited 0.
+[cont-init.d] 99-custom-scripts: executing...
+[custom-init] no custom files found exiting...
+[cont-init.d] 99-custom-scripts: exited 0.
+[cont-init.d] done.
+[services.d] starting services
+[services.d] done.
+starting with no password
+[2020-09-29T03:27:43.162Z] info  Wrote default config file to ~/.config/code-server/config.yaml
+[2020-09-29T03:27:43.168Z] info  Using config file ~/.config/code-server/config.yaml
+[2020-09-29T03:27:43.865Z] info  Using user-data-dir ~/data
+[2020-09-29T03:27:43.877Z] info  code-server 3.5.0 de41646fc402b968ca6d555fdf2da7de9554d28a
+[2020-09-29T03:27:43.889Z] info  HTTP server listening on http://0.0.0.0:8443
+[2020-09-29T03:27:43.889Z] info    - No authentication
+[2020-09-29T03:27:43.890Z] info    - Not serving HTTPS
+
+coder@hackberry:~>
 ```
