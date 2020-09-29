@@ -1,7 +1,7 @@
 
 ## Using codercom/code-server:latest and docker command guidance from coder
 
-Coder docker command example from https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md
+Coder docker command example from https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md ...
 ```
 # This will start a code-server container and expose it at http://127.0.0.1:8080.
 # It will also mount your current directory into the container as `/home/coder/project`
@@ -29,7 +29,7 @@ CONTAINER ID        IMAGE                                COMMAND                
 7c7f39c61368        codercom/code-server:latest          "/usr/bin/entrypoint…"   7 seconds ago       Up 5 seconds        127.0.0.1:8080->8080/tcp                   adoring_kilby
 
 ```
-Cannot connect to http service at exposed addr:port. Tried a few variations of the above command w/o luck. Got this output consistently in docker log:
+Cannot connect to http service at exposed addr:port. Tried a few variations of the above command w/o luck. Got this output consistently on startup of the coder-server image in container log:
 
 ```
 coder@hackberry:~/project> docker logs 7c7f39c61368
