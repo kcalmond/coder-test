@@ -1,8 +1,7 @@
 
 ## Using codercom/code-server:latest and docker command guidance from coder
 
-* ref: https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md
-* Tried many forms of their docker command guidance:
+Coder docker command example from https://github.com/cdr/code-server/blob/v3.5.0/doc/install.md
 ```
 # This will start a code-server container and expose it at http://127.0.0.1:8080.
 # It will also mount your current directory into the container as `/home/coder/project`
