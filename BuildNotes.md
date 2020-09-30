@@ -72,6 +72,45 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   coder@7c7f39c61368:~$
 ```
 
+## Using image built from code-server repo
+* Cloned cdr/code-server locally
+  * git clone https://github.com/cdr/code-server.git
+  * Repo includes this release-image Docker file: https://github.com/cdr/code-server/blob/v3.5.0/ci/release-image/Dockerfile
+  * Plan: use this Dockerfile to build an image and test docker run using it + find a set of docker commandline options that work with it
+* Build image from locally cloned repo, using ../ci/release-image/Dockerfile and ../ci/release-image/build.sh as a guide:
+  * Needed to install a few things: install nvm & yarn
+  ```
+  $ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+  $ export NVM_DIR="$HOME/.nvm"
+  $ [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  $ [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  $ nvm ls-remote  # <-- find most recent "LTS" version
+  $ nvm install 12.18.4
+  $ node -v # <-- check node installed ok & version
+
+  $ curl -o- -L https://yarnpkg.com/install.sh | bash
+  ```
+
+  * First attempted at build.sh failed at Dockerfile step 9: `COPY release-packages/code-server*.deb /tmp/`
+  * Reviewed CI automation scripts and determined I needed to pre-populate the release-packages before running build.sh. Used `release-github-assets.sh` to download asset files into ../code-server/release-packages/
+  * ran build.sh successfully - created code-server-arm64:3.5.0 image
+  ```
+  coder@hackberry:~/.config/code-server> docker images -a
+  REPOSITORY          TAG                  IMAGE ID            CREATED             SIZE
+  code-server-arm64   3.5.0                355f113aed56        4 hours ago         790MB
+  ```
+  * After a few attempts at the correct docker command to launch the server I found this version worked:
+  ```
+  $ id
+  uid=1001(coder) gid=100(users) groups=100(users),479(docker)
+
+  $ docker run -dt -p 8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "1001:100" code-server-arm64:3.5.0
+  ```
+
+
+
+
+
 ## Using image: linuxserver/coder-server
 Their image and docker command guidance worked. Was able to open coder server home page using exposed url/port.
 
