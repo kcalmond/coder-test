@@ -128,7 +128,8 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   [2020-09-30T00:45:13.800Z] info    - Not serving HTTPS
   ```
   ![](https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg | width=150)
-  ![Code - OSS](https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg | width=300)
+
+  ![](https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg | width=300)
 
 
 
