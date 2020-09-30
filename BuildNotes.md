@@ -133,7 +133,7 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
 
   <img src="https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg" align="center" width="450">
 
-  <img src="https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg" align="center" width="700">
+  <img src="https://github.com/kcalmond/coder-test/blob/master/Welcome-Coder-Code-OSS.jpg" align="center" width="700">
 
 
 
