@@ -127,10 +127,8 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   [2020-09-30T00:45:13.800Z] info      - To disable use `--auth none`
   [2020-09-30T00:45:13.800Z] info    - Not serving HTTPS
   ```
-  ![Login]
-  (https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg)
-  ![Code - OSS]
-  (https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg)
+  ![Login](https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg)
+  ![Code - OSS](https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg)
 
 
 
