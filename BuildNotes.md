@@ -114,9 +114,7 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   11462498d268554c895d8f8c621c30be8335e145a0b110072b5b862456a30fa3
 
   coder@hackberry:~/.config/code-server> docker ps
-
   CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS                                      NAMES
-
   11462498d268        code-server-arm64:3.5.0              "/usr/bin/entrypoint…"   6 seconds ago       Up 5 seconds        0.0.0.0:8080->8080/tcp                     jovial_kirch
 
   coder@hackberry:~/.config/code-server> docker logs 11462498d268
