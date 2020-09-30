@@ -127,19 +127,9 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   [2020-09-30T00:45:13.800Z] info      - To disable use `--auth none`
   [2020-09-30T00:45:13.800Z] info    - Not serving HTTPS
   ```
-  ![](https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg | width=150)
-
-  ![](https://github.com/kcalmond/coder-test/blob/master/Welcome_%E2%80%94_coder_%E2%80%94_Code_-_OSS.jpg | width=300)
-
   <img src="https://github.com/kcalmond/coder-test/blob/master/code-server_login.jpg" align="center" width="450">
 
   <img src="https://github.com/kcalmond/coder-test/blob/master/Welcome-Coder-Code-OSS.jpg" align="center" width="700">
-
-
-
-
-
-
 
 ## Using image: linuxserver/coder-server
 Their image and docker command guidance worked. Was able to open coder server home page using exposed url/port.
