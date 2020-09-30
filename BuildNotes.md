@@ -21,7 +21,10 @@ docker run -it -p 127.0.0.1:8080:8080 \
 
 Tried this form of the command per above:
 ```
-coder@hackberry:~/project> docker run -dt -p 127.0.0.1:8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD/coderproject:/home/coder/project" -u "$(id -u):$(id -g)" codercom/code-server:latest
+$ docker run -dt -p 127.0.0.1:8080:8080 \
+-v "$HOME/.config:/home/coder/.config" \
+-v "$PWD/coderproject:/home/coder/project" \
+-u "$(id -u):$(id -g)" codercom/code-server:latest
 7c7f39c61368ecb5f6a66ad9e61f2a57ec5760b50fc96753c3145cf301c58e27
 
 coder@hackberry:~/project> docker ps
@@ -78,7 +81,7 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   * Repo includes this release-image Docker file: https://github.com/cdr/code-server/blob/v3.5.0/ci/release-image/Dockerfile
   * Plan: use this Dockerfile to build an image and test docker run using it + find a set of docker commandline options that work with it
 * Build image from locally cloned repo, using ../ci/release-image/Dockerfile and ../ci/release-image/build.sh as a guide:
-  * Needed to install a few things: install nvm & yarn
+  * Needed to install nvm & yarn
   ```
   $ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
   $ export NVM_DIR="$HOME/.nvm"
@@ -104,8 +107,30 @@ coder@hackberry:~/project> docker exec -it 7c7f39c61368 /bin/bash
   $ id
   uid=1001(coder) gid=100(users) groups=100(users),479(docker)
 
-  $ docker run -dt -p 8080:8080 -v "$HOME/.config:/home/coder/.config" -v "$PWD:/home/coder/project" -u "1001:100" code-server-arm64:3.5.0
+  $ docker run -dt -p 8080:8080 \
+  -v "$HOME/.config:/home/coder/.config" \
+  -v "$PWD:/home/coder/project" \
+  -u "1001:100" code-server-arm64:3.5.0
+  11462498d268554c895d8f8c621c30be8335e145a0b110072b5b862456a30fa3
+
+  coder@hackberry:~/.config/code-server> docker ps
+
+  CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS                                      NAMES
+
+  11462498d268        code-server-arm64:3.5.0              "/usr/bin/entrypoint…"   6 seconds ago       Up 5 seconds        0.0.0.0:8080->8080/tcp                     jovial_kirch
+
+  coder@hackberry:~/.config/code-server> docker logs 11462498d268
+  whoami: cannot find name for user ID 1001
+  [2020-09-30T00:45:13.066Z] info  Using config file ~/.config/code-server/config.yaml
+  [2020-09-30T00:45:13.765Z] info  Using user-data-dir ~/.local/share/code-server
+  [2020-09-30T00:45:13.785Z] info  code-server 3.5.0 b509063e143bbf74b74ec295260c4fd5f6332f71
+  [2020-09-30T00:45:13.799Z] info  HTTP server listening on http://0.0.0.0:8080
+  [2020-09-30T00:45:13.800Z] info      - Using password from ~/.config/code-server/config.yaml
+  [2020-09-30T00:45:13.800Z] info      - To disable use `--auth none`
+  [2020-09-30T00:45:13.800Z] info    - Not serving HTTPS
   ```
+
+
 
 
 
@@ -117,7 +142,10 @@ Their image and docker command guidance worked. Was able to open coder server ho
 * ref: https://hub.docker.com/r/linuxserver/code-server
 * Adaptation of the run-in-docker example from above page:
 ```
-coder@hackberry:~/coderapp/config> docker run -dt -p 8443:8443 -v "$HOME/coderapp/config:/config" -e PUID=1001 -e PGID=100 -e TZ=America/Los_Angeles linuxserver/code-server
+$ docker run -dt -p 8443:8443 \
+-v "$HOME/coderapp/config:/config" \
+-e PUID=1001 -e PGID=100 -e TZ=America/Los_Angeles \
+linuxserver/code-server
 0a64bae936f5f625cc99a8f680d55992c8f0e179592e4e3960e57236e0c56daa
 
 9d266976c7b6        linuxserver/code-server              "/init"             8 seconds ago       Up 7 seconds        0.0.0.0:8443->8443/tcp                     silly_allen
